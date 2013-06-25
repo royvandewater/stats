@@ -1,26 +1,31 @@
 #!/usr/bin/env ruby
 
+require 'symbolic'
 require './fraction'
 
 class Circle
-  PI = -1
+  PI = var :name => 'π'
 
   def initialize(options={})
     if options[:radius]
-      @radius = options[:radius].to_f
+      @radius = options[:radius]
     elsif options[:circumference]
-      @radius = options[:circumference].to_f / (2.0 * PI)
+      @radius = options[:circumference] / (2.0 * PI)
     elsif options[:diameter]
-      @radius = options[:diameter].to_f / 2.0
+      @radius = options[:diameter] / 2.0
     elsif options[:area]
-      @radius = Math.sqrt(options[:area].to_f / PI)
+      @radius = Math.sqrt(options[:area] / PI)
     else
       raise 'No radius info given'
     end
   end
 
   def area
-    (PI * (@radius ** 2)).abs
+    PI * (@radius ** 2)
+  end
+
+  def /(circle)
+    Fraction.new((area / PI), (circle.area / PI))
   end
 end
 
@@ -31,5 +36,5 @@ if __FILE__ == $0
   puts "target area:    #{@target.area}"
   puts "dartboard area: #{@dartboard.area}"
 
-  puts Fraction.new(@target.area, @dartboard.area)
+  puts @target / @dartboard
 end
