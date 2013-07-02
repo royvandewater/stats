@@ -9,14 +9,11 @@ class MarbleBag
   end
 
   def dependent_probability(*colors)
-    probabilities = []
-
-    colors.each do |color|
-      probabilities  << Fraction.new(@marbles_by_color[color], marble_count)
+    colors.inject Fraction.new(1,1) do |accumulator, color|
+      accumulator *= Fraction.new(@marbles_by_color[color], marble_count)
       @marbles_by_color[color] -= 1
+      accumulator
     end
-
-    probabilities.reduce Fraction.new(1,1), :*
   end
 
   def marble_count
@@ -25,6 +22,7 @@ class MarbleBag
 end
 
 if __FILE__ == $0
-  @marble_bag = MarbleBag.new :red => 4, :green => 5, :blue => 4
-  puts @marble_bag.dependent_probability :red, :green
+  @marble_bag = MarbleBag.new :red => ARGV[0].to_i, :green => ARGV[1].to_i, :blue => ARGV[2].to_i
+  puts "list: #{ARGV[3..-1].map(&:to_sym)}"
+  puts @marble_bag.dependent_probability *ARGV[3..-1].map(&:to_sym)
 end
