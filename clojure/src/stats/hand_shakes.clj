@@ -5,7 +5,7 @@
 (defn combination-count [number_of_people]
   (count (combo/combinations (range 0 number_of_people) 2)))
 
-(def usage 
+(defn usage []
   "Usage: 
     lein -m stats.hand_shakes [number_of_people]")
 
