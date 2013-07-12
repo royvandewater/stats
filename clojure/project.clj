@@ -4,5 +4,6 @@
   :license {:name "The MIT License (MIT)"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/math.combinatorics "0.0.4"]]
+                 [org.clojure/math.combinatorics "0.0.4"]
+                 [org.clojure/tools.cli "0.2.2"]]
   :main stats.core)
